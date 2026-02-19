@@ -19,7 +19,7 @@ services:
         # http
       - "traefik.http.routers.catapp.rule=Host(`yourhonestprogrammer.com`)"
       - "traefik.http.routers.catapp.entrypoints=web"
-      - "traefik.http.routers.catapp.middlewares=redirectscheme"
+      - "traefik.http.routers.catapp.middlewares=redirect"
         # https
       - "traefik.http.routers.catapp-secure.rule=Host(`yourhonestprogrammer.com`)"
       - "traefik.http.routers.catapp-secure.entrypoints=websecure"
