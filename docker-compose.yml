@@ -14,9 +14,19 @@ services:
   catapp:
     image: mikesir87/cats:1.0
     labels:
+      # Routers
+        # http
       - "traefik.enable=true"
       - "traefik.http.routers.catapp.rule=Host(`yourhonestprogrammer.com`)"
+      - "traefik.http.routers.catapp.entrypoints=web"
+      - "traefik.http.routers.catapp.middlewares=redirect"
+        # https
+      - "traefik.http.routers.catapp-secure.rule=Host(`yourhonestprogrammer.com`)"
       - "traefik.http.routers.catapp.entrypoints=websecure"
       - "traefik.http.routers.catapp.service=catapp"
-      - "traefik.http.services.catapp.loadbalancer.server.port=5000"
       - "traefik.http.routers.catapp.tls.certresolver=myresolver"
+      # Services
+      - "traefik.http.services.catapp-secure.loadbalancer.server.port=5000"
+      # Redirect Scheme HTTP -> HTTPS
+      - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
