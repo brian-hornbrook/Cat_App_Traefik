@@ -14,7 +14,7 @@ services:
   catapp:
     image: mikesir87/cats:1.0
     networks:
-      - web
+      - traefik_proxy
     labels:
       - "traefik.enable=true"
     # Routers
@@ -37,5 +37,5 @@ services:
       - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
 
 networks:
-  web:
+  traefik_proxy:
     external: true
