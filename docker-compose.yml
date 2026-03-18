@@ -1,32 +1,41 @@
 services:
-  traefik:
-    image: traefik:v3
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.yml:/etc/traefik/traefik.yml
-      - ./letsencrypt:/letsencrypt
-      - ./letsencrypt/acme.json:/acme.json
+  #traefik:
+  #  image: traefik:v3
+  #  ports:
+  #    - "80:80"
+  #    - "443:443"
+  #    - "8080:8080"
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - ./traefik.yml:/etc/traefik/traefik.yml
+  #    - ./letsencrypt:/letsencrypt
+  #    - ./letsencrypt/acme.json:/acme.json
 
   catapp:
     image: mikesir87/cats:1.0
+    networks:
+      - web
     labels:
       - "traefik.enable=true"
-      # Routers
-        # http
+    # Routers
+
+      # http
       - "traefik.http.routers.catapp.rule=Host(`yourhonestprogrammer.com`) || Host(`www.yourhonestprogrammer.com`)"
       - "traefik.http.routers.catapp.entrypoints=web"
       - "traefik.http.routers.catapp.middlewares=redirect"
-        # https
+
+    # https
       - "traefik.http.routers.catapp-secure.rule=Host(`yourhonestprogrammer.com`) || Host(`www.yourhonestprogrammer.com`)"
       - "traefik.http.routers.catapp-secure.entrypoints=websecure"
-#      - "traefik.http.routers.catapp.service=catapp"
       - "traefik.http.routers.catapp-secure.tls.certresolver=myresolver"
-      # Services
+
+    # Services
       - "traefik.http.services.catapp-secure.loadbalancer.server.port=5000"
-      # Redirect Scheme HTTP -> HTTPS
+
+    # Redirect Scheme HTTP -> HTTPS
       - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
+
+networks:
+  web:
+    external: true
