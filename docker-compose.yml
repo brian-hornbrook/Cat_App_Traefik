@@ -20,12 +20,12 @@ services:
     # Routers
 
       # http
-      - "traefik.http.routers.catapp.rule=Host(`yourhonestprogrammer.com`) || Host(`www.yourhonestprogrammer.com`)"
+      - "traefik.http.routers.catapp.rule=Host(`yourqualityprogrammer.com`) || Host(`www.yourqualityprogrammer.com`)"
       - "traefik.http.routers.catapp.entrypoints=web"
       - "traefik.http.routers.catapp.middlewares=redirect"
 
     # https
-      - "traefik.http.routers.catapp-secure.rule=Host(`yourhonestprogrammer.com`) || Host(`www.yourhonestprogrammer.com`)"
+      - "traefik.http.routers.catapp-secure.rule=Host(`yourqualityprogrammer.com`) || Host(`www.yourqualityprogrammer.com`)"
       - "traefik.http.routers.catapp-secure.entrypoints=websecure"
       - "traefik.http.routers.catapp-secure.tls.certresolver=myresolver"
 
